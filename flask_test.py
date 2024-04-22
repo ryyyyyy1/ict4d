@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import psycopg2
+import os
 
 app = Flask(__name__)
 
@@ -84,4 +85,5 @@ def get_user_status(phone_number):
         return jsonify({'message': 'User not found'}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
