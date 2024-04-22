@@ -44,6 +44,11 @@ def get_user(user_id):
     else:
         return jsonify({'message': 'User not found'}), 404
 
+@app.route('/')
+def hello_world():
+    return "Hello ict4d!"
+
+
 @app.route('/users', methods=['POST'])
 def create_user():
     # 创建新用户
