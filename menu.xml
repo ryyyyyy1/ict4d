@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.1">
+  <property name="inputmodes" value="dtmf"/>
+  
+  <form id="menu0">
+    <block>
+      <prompt bargein="true">Welcome to the seed certification application.</prompt>
+      <goto next="#menu1"/>
+    </block>
+  </form>
+
+ <form id="menu1">
+   <field name="page">
+	<prompt bargein="true">
+		Which service would you like to choose?
+		For Voice service press 1.
+		For DTMF service press2.
+		For go back press 0.
+	</prompt>
+	<option dtmf="1" value="Voice">Voice</option>
+	<option dtmf="2" value="DTMF">DTMF</option> 
+	<option dtmf="0" value="Back">Repeat menu options</option>
+	<noinput>Please enter a number.<reprompt/></noinput>      
+  	<nomatch>This is no option. Try again.<reprompt/></nomatch>
+   <filled namelist="page">
+	<if cond="page == 'Voice'">
+		<goto next="voice_service.xml"/>
+	<elseif cond="page == 'DTMF'"/>
+		<goto next="dtmf_service.xml"/>
+	</if>
+  </filled>
+  </field>
+ </form>
+</vxml>

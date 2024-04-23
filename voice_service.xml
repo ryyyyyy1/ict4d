@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.1">
+  
+  <form id="menu0">
+    <block>
+      <prompt bargein="true">You have chosen the voice service.</prompt>
+      <goto next="#voice1"/>
+    </block>
+  </form>
+
+ <form id="voice1">
+	<field name="voiceOption">
+		<prompt>Please say one to check the processing status of your certificate.
+                        Or please say zero to go back.</prompt>
+		<grammar xml:lang="en-US" root="menuChoice">
+		  <rule id="menuChoice">
+			<one-of>
+			  <item>1</item>
+			  <item>0</item>
+			</one-of>
+		  </rule>
+		</grammar>
+		<noinput>Please say a number.</noinput>
+		<nomatch>I did not understand that.</nomatch>
+		<filled>
+		  <if cond="voiceOption == '1'">
+			<goto next="#voice2"/>
+		  <elseif cond="voiceOption == '0'"/>
+			<goto next="menu.xml"/>
+		  </if>
+		</filled>
+	  </field>
+	</form>
+
+	<form id="voice2">
+		<field name="phoneNumber">
+		  <prompt>Please say your telephone number.</prompt>
+		 <grammar src="builtin:grammar/phone" xml:lang="en-US"/>
+		  <noinput>I didn't detect any input. Please say your telephone number.</noinput>
+		  <nomatch>I didn't understand that. Please say your telephone number again.</nomatch>
+  	          
+
+
+		  <filled>
+			<prompt>Your entered phone number is <say-as interpret-as="spell" format="alphanumeric"> <value expr="phoneNumber"> </value> </say-as>.
+			Your certificate is ready.
+			Your certificate number is  <say-as interpret-as="spell" format="alphanumeric">123</say-as>.
+			</prompt>
+			</filled>
+		</field>
+	  </form>
+
+</vxml>

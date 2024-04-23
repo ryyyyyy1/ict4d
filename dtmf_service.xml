@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.1">
+  <property name="inputmodes" value="dtmf"/>
+  
+  <form id="menu0">
+    <block>
+      <prompt bargein="true">You have chosen the dtmf service.</prompt>
+      <goto next="#menu1"/>
+    </block>
+  </form>
+
+ <form id="menu1">
+   <field name="page">
+	<prompt bargein="true">
+		press 1 to check the processing status of your certificate.
+		press 0 to go back.
+	</prompt>
+	<option dtmf="1" value="Check">Check</option>
+	<option dtmf="0" value="Back">Back</option>
+	<noinput>Please enter a number.<reprompt/></noinput>      
+  	<nomatch>This is no option. Try again.<reprompt/></nomatch>
+   <filled namelist="page">
+	<if cond="page == 'Back'">
+		<goto next="menu.xml"/>
+	<elseif cond="page == 'Check'"/>	
+		<goto next="#menu2"/>
+	</if>
+  </filled>
+  </field>
+ </form>
+
+ <form id="menu2">
+	<field name="phone_number" type="number">
+		<prompt bargein="true"> please enter your phone number</prompt>
+	<filled>
+	<prompt>Your entered phone number is <say-as interpret-as="spell" format="alphanumeric"> <value expr="phone_number"> </value> </say-as>.
+	Your certificate is ready.
+	Your certificate number is 123.
+    </prompt>
+	</filled>
+	</field>
+ </form>
+</vxml>
