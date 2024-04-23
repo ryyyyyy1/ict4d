@@ -22,7 +22,8 @@ cur.execute("""
         id SERIAL PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
         phone_number VARCHAR(20) NOT NULL UNIQUE,
-        status VARCHAR(20) CHECK (status IN ('failed', 'success', 'in_progress'))
+        status VARCHAR(20) CHECK (status IN ('failed', 'success', 'in_progress')),
+        certificate VARCHAR(15) NOT NULL UNIQUE
     )
 """)
 conn.commit()
@@ -56,7 +57,8 @@ def create_user():
     name = data['name']
     phone_number = data['phone_number']
     status = data['status']
-    cur.execute("INSERT INTO users (name, phone_number, status) VALUES (%s, %s, %s) RETURNING id", (name, phone_number, status))
+    certificate = data['certificate'] # 新增证书列
+    cur.execute("INSERT INTO users (name, phone_number, status, certificate) VALUES (%s, %s, %s, %s) RETURNING id", (name, phone_number, status, certificate))
     new_user_id = cur.fetchone()[0]
     conn.commit()
     return jsonify({'message': 'User created', 'user_id': new_user_id}), 201
@@ -68,7 +70,8 @@ def update_user(user_id):
     name = data['name']
     phone_number = data['phone_number']
     status = data['status']
-    cur.execute("UPDATE users SET name = %s, phone_number = %s, status = %s WHERE id = %s", (name, phone_number, status, user_id))
+    certificate = data['certificate'] # 新增证书列
+    cur.execute("UPDATE users SET name = %s, phone_number = %s, status = %s, certificate = %s WHERE id = %s", (name, phone_number, status, certificate, user_id))
     conn.commit()
     return jsonify({'message': 'User updated'})
 
@@ -82,10 +85,10 @@ def delete_user(user_id):
 @app.route('/users/status/<phone_number>', methods=['GET'])
 def get_user_status(phone_number):
     # 根据电话号码查询用户状态
-    cur.execute("SELECT status FROM users WHERE phone_number = %s", (phone_number,))
+    cur.execute("SELECT status, certificate FROM users WHERE phone_number = %s", (phone_number,))
     user_status = cur.fetchone()
     if user_status:
-        return jsonify({'status': user_status[0]})
+        return jsonify({'status': user_status[0], 'certificate': user_status[1]}) # 返回 status 和 certificate
     else:
         return jsonify({'message': 'User not found'}), 404
 
