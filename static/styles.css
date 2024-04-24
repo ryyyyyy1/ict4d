@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    padding-top: 50px;
+}
+
+form {
+    text-align: center;
+    padding-top: 20px;
+}
+
+/* 输入框 */
+input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 300px;
+    margin-right: 10px;
+    /* 设置输入框中的文本为透明 */
+    color: black;
+}
+
+/* 设置输入框中的占位符文本样式 */
+input[type="text"]::placeholder {
+    /* 设置占位符文本的颜色 */
+    color: #333; /* 设置为你想要的颜色 */
+    /* 设置占位符文本的透明度 */
+    opacity: 0.5; /* 设置为你想要的透明度，取值范围为0（完全透明）到1（完全不透明） */
+}
+
+button {
+    padding: 10px 16px;
+    border-radius: 5px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
