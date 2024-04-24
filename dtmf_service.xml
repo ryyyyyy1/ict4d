@@ -30,14 +30,35 @@
  </form>
 
  <form id="menu2">
-	<field name="phone_number" type="number">
-		<prompt bargein="true"> please enter your phone number</prompt>
-	<filled>
-	<prompt>Your entered phone number is <say-as interpret-as="spell" format="alphanumeric"> <value expr="phone_number"> </value> </say-as>.
-	Your certificate is ready.
-	Your certificate number is 123.
-    </prompt>
-	</filled>
-	</field>
- </form>
+    <field name="phone_number" type="number">
+      <prompt bargein="true">Please enter your phone number</prompt>
+      <filled>
+        <var name="url1" expr="'https://ict4dapps-d94848d8107c.herokuapp.com/users/status/' + phone_number"/>
+        <!-- Submit the phone number to backend for processing -->
+		<prompt>
+			Your entered phone number is
+			<say-as interpret-as="spell" format="alphanumeric">
+			<value expr="phone_number"> </value>
+			</say-as>
+		</prompt>
+        
+      <data srcexpr="url1" name="response" accept="application/json"/>
+      <!-- Check the status and handle accordingly -->
+      <if cond="response.status == 'success'">
+        <!-- If status is success, return the certificate -->
+        <prompt bargein="true">Your certificate is ready. Your certificate number is:
+		 <say-as interpret-as="spell" format="alphanumeric">
+			<value expr="response.certificate"/>
+		 </say-as>
+		 </prompt>
+      <elseif cond="response.message == 'user not found'"/>
+        <!-- If user is not found, inform the user -->
+        <prompt bargein="true">User not found. Please try again.</prompt>
+      <else/>
+        <!-- Handle other possible responses -->
+        <prompt bargein="true">An error occurred. Please try again later.</prompt>
+      </if>
+      </filled>
+    </field>
+  </form>
 </vxml>
