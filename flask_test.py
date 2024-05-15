@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import psycopg2
 import os
 
@@ -47,7 +47,7 @@ def get_user(user_id):
 
 @app.route('/')
 def hello_world():
-    return "Hello ict4d!"
+    return send_file('static/index.html')
 
 
 @app.route('/users', methods=['POST'])
@@ -89,6 +89,16 @@ def get_user_status(phone_number):
     user_status = cur.fetchone()
     if user_status:
         return jsonify({'status': user_status[0], 'certificate': user_status[1]}) # 返回 status 和 certificate
+    else:
+        return jsonify({'message': 'User not found'}), 404
+
+@app.route('/users/<certificate>', methods=['GET'])
+def get_user_status(certificate):
+    # 根据证书查询用户状态
+    cur.execute("SELECT name, phone_number, status FROM users WHERE certificate = %s", (certificate,))
+    user_info = cur.fetchone()
+    if user_info:
+        return jsonify({'name': user_info[0], 'phone_number': user_info[1], 'status': user_info[2]})
     else:
         return jsonify({'message': 'User not found'}), 404
 

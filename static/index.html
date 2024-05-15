@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate Query</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        max-width: 400px;
+        margin: 50px auto;
+        text-align: center;
+    }
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+    #result {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Certificate Query</h2>
+    <input type="text" id="certificateInput" placeholder="Enter Certificate">
+    <button onclick="queryCertificate()">Query</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function queryCertificate() {
+        var certificate = document.getElementById("certificateInput").value;
+        var url = `https://ict4dapps-d94848d8107c.herokuapp.com/users/status/${certificate}`;
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                var resultDiv = document.getElementById("result");
+                resultDiv.innerHTML = `
+                    <p><strong>Name:</strong> ${data.name}</p>
+                    <p><strong>Phone Number:</strong> ${data.phone_number}</p>
+                    <p><strong>Status:</strong> ${data.status}</p>
+                `;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+                var resultDiv = document.getElementById("result");
+                resultDiv.innerHTML = "<p>Failed to fetch user information.</p>";
+            });
+    }
+</script>
+
+</body>
+</html>
