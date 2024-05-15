@@ -7,8 +7,11 @@ For buyers who want to check the certificate provided by the farmer, please visi
 An example already exists in the database is:
 
 name:ry
+
 phone_number:12345678
+
 certificate:123
+
 status:success
 
 you can try with it
