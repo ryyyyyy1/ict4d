@@ -1,42 +1,93 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--<meta charset="UTF-8">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--<title>Certificate Query</title>-->
+<!--<style>-->
+<!--    body {-->
+<!--        font-family: Arial, sans-serif;-->
+<!--    }-->
+<!--    .container {-->
+<!--        max-width: 400px;-->
+<!--        margin: 50px auto;-->
+<!--        text-align: center;-->
+<!--    }-->
+<!--    input[type="text"] {-->
+<!--        width: 100%;-->
+<!--        padding: 10px;-->
+<!--        margin-bottom: 20px;-->
+<!--    }-->
+<!--    button {-->
+<!--        padding: 10px 20px;-->
+<!--        background-color: #007bff;-->
+<!--        color: #fff;-->
+<!--        border: none;-->
+<!--        cursor: pointer;-->
+<!--    }-->
+<!--    #result {-->
+<!--        margin-top: 20px;-->
+<!--    }-->
+<!--</style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div class="container">-->
+<!--    <h2>Certificate Query</h2>-->
+<!--    <input type="text" id="certificateInput" placeholder="Enter Certificate">-->
+<!--    <button onclick="queryCertificate()">Query</button>-->
+<!--    <div id="result"></div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    function queryCertificate() {-->
+<!--        var certificate = document.getElementById("certificateInput").value;-->
+<!--        var url = `https://ict4dapps-d94848d8107c.herokuapp.com/users/certificate/${certificate}`;-->
+
+<!--        fetch(url)-->
+<!--            .then(response => {-->
+<!--                if (!response.ok) {-->
+<!--                    throw new Error('Network response was not ok');-->
+<!--                }-->
+<!--                return response.json();-->
+<!--            })-->
+<!--            .then(data => {-->
+<!--                var resultDiv = document.getElementById("result");-->
+<!--                resultDiv.innerHTML = `-->
+<!--                    <p><strong>Name:</strong> ${data.name}</p>-->
+<!--                    <p><strong>Phone Number:</strong> ${data.phone_number}</p>-->
+<!--                    <p><strong>Status:</strong> ${data.status}</p>-->
+<!--                `;-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('There was a problem with the fetch operation:', error);-->
+<!--                var resultDiv = document.getElementById("result");-->
+<!--                resultDiv.innerHTML = "<p>Failed to fetch user information.</p>";-->
+<!--            });-->
+<!--    }-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Certificate Query</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-    }
-    .container {
-        max-width: 400px;
-        margin: 50px auto;
-        text-align: center;
-    }
-    input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-    }
-    button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-    }
-    #result {
-        margin-top: 20px;
-    }
-</style>
+<!-- 引入 Bootstrap 样式表 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<div class="container">
-    <h2>Certificate Query</h2>
-    <input type="text" id="certificateInput" placeholder="Enter Certificate">
-    <button onclick="queryCertificate()">Query</button>
-    <div id="result"></div>
+<div class="container mt-5">
+    <h2 class="mb-4">Certificate Query</h2>
+    <div class="input-group mb-3">
+        <input type="text" id="certificateInput" class="form-control" placeholder="Enter Certificate">
+        <button class="btn btn-primary" type="button" onclick="queryCertificate()">Query</button>
+    </div>
+    <div id="result" class="mt-4"></div>
 </div>
 
 <script>
@@ -54,16 +105,26 @@
             .then(data => {
                 var resultDiv = document.getElementById("result");
                 resultDiv.innerHTML = `
-                    <p><strong>Name:</strong> ${data.name}</p>
-                    <p><strong>Phone Number:</strong> ${data.phone_number}</p>
-                    <p><strong>Status:</strong> ${data.status}</p>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Query Result</h5>
+                            <p class="card-text"><strong>Name:</strong> ${data.name}</p>
+                            <p class="card-text"><strong>Phone Number:</strong> ${data.phone_number}</p>
+                            <p class="card-text"><strong>Status:</strong> ${data.status}</p>
+                            <button class="btn btn-primary" onclick="goBack()">Return</button>
+                        </div>
+                    </div>
                 `;
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
                 var resultDiv = document.getElementById("result");
-                resultDiv.innerHTML = "<p>Failed to fetch user information.</p>";
+                resultDiv.innerHTML = "<p class='text-danger'>Failed to fetch user information.</p>";
             });
+    }
+
+    function goBack() {
+        window.history.back();
     }
 </script>
 
