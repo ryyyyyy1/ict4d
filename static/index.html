@@ -42,7 +42,7 @@
 <script>
     function queryCertificate() {
         var certificate = document.getElementById("certificateInput").value;
-        var url = `https://ict4dapps-d94848d8107c.herokuapp.com/users/status/${certificate}`;
+        var url = `https://ict4dapps-d94848d8107c.herokuapp.com/users/certificate/${certificate}`;
 
         fetch(url)
             .then(response => {

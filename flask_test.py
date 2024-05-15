@@ -92,7 +92,7 @@ def get_user_status_by_phone_number(phone_number):
     else:
         return jsonify({'message': 'User not found'}), 404
 
-@app.route('/users/<certificate>', methods=['GET'])
+@app.route('/users/certificate/<certificate>', methods=['GET'])
 def get_user_status_by_certificate(certificate):
     # 根据证书查询用户状态
     cur.execute("SELECT name, phone_number, status FROM users WHERE certificate = %s", (certificate,))
