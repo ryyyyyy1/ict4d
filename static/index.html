@@ -111,7 +111,6 @@
                             <p class="card-text"><strong>Name:</strong> ${data.name}</p>
                             <p class="card-text"><strong>Phone Number:</strong> ${data.phone_number}</p>
                             <p class="card-text"><strong>Status:</strong> ${data.status}</p>
-                            <button class="btn btn-primary" onclick="goBack()">Return</button>
                         </div>
                     </div>
                 `;
@@ -121,10 +120,6 @@
                 var resultDiv = document.getElementById("result");
                 resultDiv.innerHTML = "<p class='text-danger'>Failed to fetch user information.</p>";
             });
-    }
-
-    function goBack() {
-        window.history.back();
     }
 </script>
 
