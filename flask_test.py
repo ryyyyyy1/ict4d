@@ -83,7 +83,7 @@ def delete_user(user_id):
     return jsonify({'message': 'User deleted'})
 
 @app.route('/users/status/<phone_number>', methods=['GET'])
-def get_user_status(phone_number):
+def get_user_status_by_phone_number(phone_number):
     # 根据电话号码查询用户状态
     cur.execute("SELECT status, certificate FROM users WHERE phone_number = %s", (phone_number,))
     user_status = cur.fetchone()
@@ -93,7 +93,7 @@ def get_user_status(phone_number):
         return jsonify({'message': 'User not found'}), 404
 
 @app.route('/users/<certificate>', methods=['GET'])
-def get_user_status(certificate):
+def get_user_status_by_certificate(certificate):
     # 根据证书查询用户状态
     cur.execute("SELECT name, phone_number, status FROM users WHERE certificate = %s", (certificate,))
     user_info = cur.fetchone()
