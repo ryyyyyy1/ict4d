@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-# 连接到 PostgreSQL 数据库
+# link to PostgreSQL database
 conn = psycopg2.connect(
     dbname="dccmj812eekhos",
     user="ucr5qdnoskkrji",
@@ -13,10 +13,10 @@ conn = psycopg2.connect(
     port="5432"
 )
 
-# 创建游标对象
+# create connection instance
 cur = conn.cursor()
 
-# 初始化数据库表格
+# initiate the data base
 cur.execute("""
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -57,7 +57,7 @@ def create_user():
     name = data['name']
     phone_number = data['phone_number']
     status = data['status']
-    certificate = data['certificate'] # 新增证书列
+    certificate = data['certificate']
     cur.execute("INSERT INTO users (name, phone_number, status, certificate) VALUES (%s, %s, %s, %s) RETURNING id", (name, phone_number, status, certificate))
     new_user_id = cur.fetchone()[0]
     conn.commit()
@@ -70,7 +70,7 @@ def update_user(user_id):
     name = data['name']
     phone_number = data['phone_number']
     status = data['status']
-    certificate = data['certificate'] # 新增证书列
+    certificate = data['certificate']
     cur.execute("UPDATE users SET name = %s, phone_number = %s, status = %s, certificate = %s WHERE id = %s", (name, phone_number, status, certificate, user_id))
     conn.commit()
     return jsonify({'message': 'User updated'})
@@ -84,7 +84,6 @@ def delete_user(user_id):
 
 @app.route('/users/status/<phone_number>', methods=['GET'])
 def get_user_status_by_phone_number(phone_number):
-    # 根据电话号码查询用户状态
     cur.execute("SELECT status, certificate FROM users WHERE phone_number = %s", (phone_number,))
     user_status = cur.fetchone()
     if user_status:
@@ -94,7 +93,6 @@ def get_user_status_by_phone_number(phone_number):
 
 @app.route('/users/certificate/<certificate>', methods=['GET'])
 def get_user_status_by_certificate(certificate):
-    # 根据证书查询用户状态
     cur.execute("SELECT name, phone_number, status FROM users WHERE certificate = %s", (certificate,))
     user_info = cur.fetchone()
     if user_info:
